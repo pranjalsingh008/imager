@@ -8,8 +8,8 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     return '''
-        <form method = "POST" action = "/create" enctype = "multipart/form-data">
-            <input type="text" name="name">
+        <form method = "POST" action = "/app2/create" enctype = "multipart/form-data">
+            <input type="text" name="name" placeholder="Vault Name">
             <input type="file" name="image">
             <input type="submit">
         </form>
@@ -20,19 +20,18 @@ def create():
     if 'image' in request.files:
         imager = request.files['image']  
         mongo.save_file(imager.filename, imager)
-        mongo.db.images.insert({'name' : request.form.get('name'), 'image_name' : image.filename})
+        mongo.db.images.insert({'name' : request.form.get('name'), 'image_name' : imager.filename})
     
     return "Done!"
-
-@app.route('/file/<filename>')
+@app.route('/app2/file/<filename>')
 def file(filename):
     return mongo.send_file(filename)
 
-@app.route ('/image/<username>')
-def image(username):
-    user = mongo.db.images.find_one_404({'username': username})
+@app.route ('/image/<name>')
+def image(name):
+    user = mongo.db.images.find_one({'name': name})
     return f'''
-        <h1>{username}</h1>
+        <h1>{name}</h1>
         <img src="{url_for('file',filename=user['image_name'])}">
     '''
 

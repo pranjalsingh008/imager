@@ -8,7 +8,6 @@ services:
   app2:
     restart: always
     image: d3v1l666/cloudapp2:latest
-
     expose:
       - "5000"
     
@@ -16,7 +15,7 @@ services:
     restart: always
     image: d3v1l666/cloudnginx:latest
     ports:
-      - 8000:80
+      - 80:80
     links:
       - app1:app1
       - app2:app2

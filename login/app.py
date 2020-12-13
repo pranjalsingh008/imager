@@ -16,7 +16,7 @@ def login():
     login_user = users.find_one({'name' : request.form['username'],'password' : request.form['pass']})
 
     if login_user:
-        return redirect("http://localhost:8000//app2", code=302)
+        return redirect("/app2", code=302)
 
         
 
@@ -32,9 +32,9 @@ def register():
         if existing_user is None:
             hashpass = request.form['pass']
             users.insert({'name' : request.form['username'], 'password' : hashpass})
-            return redirect("http://localhost:8000//app2", code=302)
+            return redirect("/app2", code=302)
         
-        return redirect("http://localhost:8000//app1", code=302)
+        return redirect("/app1", code=302)
 
     return render_template('register.html')
 
